@@ -8,7 +8,7 @@ import (
 )
 
 func main() {
-	db, err := sql.Open("mysql", "user:pass@tcp(localhost:3306)/ratel?parseTime=true&loc=Asia%2FTokyo")
+	db, err := sql.Open("mysql", "user:pass@tcp(mysql:3306)/ratel?parseTime=true&loc=Asia%2FTokyo")
 	if err != nil {
 		panic(err.Error())
 	}

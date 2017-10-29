@@ -1,0 +1,29 @@
+version: "3"
+services:
+  mysql:
+    image: mysql
+    ports:
+      - "3306:3306"
+    expose:
+      - 3306
+    environment:
+      MYSQL_ROOT_PASSWORD: pass
+      MYSQL_DATABASE: ratel
+      MYSQL_USER: user
+      MYSQL_PASSWORD: pass
+    volumes:
+      - "./mysql/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d"
+    networks:
+      - webnet
+  ratel-web:
+    build: .
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mysql
+    links:
+      - mysql
+    networks:
+      - webnet
+networks:
+  webnet:
