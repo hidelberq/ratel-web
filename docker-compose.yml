@@ -13,9 +13,7 @@ services:
       MYSQL_PASSWORD: pass
     volumes:
       - "./mysql/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d"
-    networks:
-      - webnet
-  ratel-web:
+  app:
     build: .
     ports:
       - "8080:8080"
@@ -23,7 +21,3 @@ services:
       - mysql
     links:
       - mysql
-    networks:
-      - webnet
-networks:
-  webnet:

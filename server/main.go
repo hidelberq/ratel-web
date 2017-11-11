@@ -1,10 +1,10 @@
 package main
 
 import (
-	"database/sql"
 	_ "github.com/go-sql-driver/mysql"
-	"github.com/hidelbreq/ratel-web/server/handler"
 	"net/http"
+	"database/sql"
+	"github.com/hidelbreq/ratel-web/server/handler"
 )
 
 func main() {
