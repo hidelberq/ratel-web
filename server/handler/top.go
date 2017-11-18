@@ -30,10 +30,6 @@ func dateOfMonsh(t time.Time) string {
 
 func (t *Top) show(w http.ResponseWriter, r *http.Request) {
 	ts := t.soundCloudModel.FindAll()
-
-	//funcMap := template.FuncMap{
-	//	"dateOfMonth": dateOfMonsh,
-	//}
 	tmp, err := template.ParseFiles(filepath.Join("server", "view", "index.html"))
 	if err != nil {
 		fmt.Println(err)
