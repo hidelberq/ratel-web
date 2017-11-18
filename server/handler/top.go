@@ -5,12 +5,12 @@ import (
 	"html/template"
 	"net/http"
 	"path/filepath"
-	"time"
 	"fmt"
+	"log"
 )
 
 type Top struct {
-	soundCloudModel *model.SoundCloudTrackModel
+	soundCloudModel *model.SoundcloudTrackModel
 }
 
 func NewTop(opt Option) *Top {
@@ -21,11 +21,9 @@ func (t *Top) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case "GET":
 		t.show(w, r)
+	case "POST":
+		t.post(w, r)
 	}
-}
-
-func dateOfMonsh(t time.Time) string {
-	return t.Format("01-02")
 }
 
 func (t *Top) show(w http.ResponseWriter, r *http.Request) {
@@ -41,6 +39,10 @@ func (t *Top) show(w http.ResponseWriter, r *http.Request) {
 		SoundCloudTracks: ts,
 	}
 	tmp.Execute(w, data)
+}
+
+func (t *Top) post(w http.ResponseWriter, r *http.Request) {
+	log.Fatal(r.PostForm)
 }
 
 var _ http.Handler = (*Top)(nil)

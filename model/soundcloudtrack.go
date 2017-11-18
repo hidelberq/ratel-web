@@ -18,15 +18,15 @@ type SoundCloudTrack struct {
 	DeletedAt   mysql.NullTime
 }
 
-type SoundCloudTrackModel struct {
+type SoundcloudTrackModel struct {
 	db sql.DB
 }
 
-func NewSoundCloudTrackModel(db sql.DB) *SoundCloudTrackModel {
-	return &SoundCloudTrackModel{db}
+func NewSoundCloudTrackModel(db sql.DB) *SoundcloudTrackModel {
+	return &SoundcloudTrackModel{db}
 }
 
-func (m *SoundCloudTrackModel) FindAll() []*SoundCloudTrack {
+func (m *SoundcloudTrackModel) FindAll() []*SoundCloudTrack {
 	rows, err := m.db.Query(`
 	select track_id, name, title, author, description, display_time, created_at, updated_at
 	from soundcloud_track
