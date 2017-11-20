@@ -11,10 +11,14 @@ import (
 
 type Top struct {
 	soundCloudModel *model.SoundcloudTrackModel
+	messageModel *model.MessageModel
 }
 
 func NewTop(opt Option) *Top {
-	return &Top{soundCloudModel: model.NewSoundCloudTrackModel(opt.DB)}
+	return &Top{
+		soundCloudModel: model.NewSoundCloudTrackModel(opt.DB),
+		messageModel: model.NewMessageModel(opt.DB),
+	}
 }
 
 func (t *Top) ServeHTTP(w http.ResponseWriter, r *http.Request) {
@@ -42,7 +46,18 @@ func (t *Top) show(w http.ResponseWriter, r *http.Request) {
 }
 
 func (t *Top) post(w http.ResponseWriter, r *http.Request) {
-	log.Fatal(r.PostForm)
+	m := &model.Message{
+		r.FormValue("name"),
+		r.FormValue("email"),
+		r.FormValue("message"),
+	}
+	if err := t.messageModel.Create(m); err != nil {
+		log.Println(err)
+		w.WriteHeader(500)
+		return
+	}
+
+	w.WriteHeader(200)
 }
 
 var _ http.Handler = (*Top)(nil)
