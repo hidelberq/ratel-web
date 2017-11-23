@@ -1,4 +1,4 @@
-<!doctype html>
+{{define "base"}}<!doctype html>
 
 <!---
 Copyright 2017 The AMP Start Authors. All Rights Reserved.
@@ -208,12 +208,25 @@ limitations under the License.
     <hr>
 
     <article class="photo-article">
-      <span class="ampstart-subtitle block px3 pt2 mb2">11月2日にライブを行います！</span>
-        11月2日三鷹のライブハウス、"おんがくのじかん"のイベント<a href="http://ongakunojikan.com/2017/11/02.html">もくようび vol.44</a>に出演します。お時間のある方は是非お越しください。
+      <span class="ampstart-subtitle block px3 pt2 mb2">1/25にライブを行います！</span>
+        1月25日にライブをやると思います。詳細が決まり次第またお伝えします。
     </article>
 
   </main>
   <!-- End Newsコンテンツ -->
+
+  <!-- Start Music Logコンテンツ -->
+  <main id="blog" role="main" class="pt60">
+
+      <h2>Blog</h2>
+      <hr>
+  {{range $entry := .Entries}}
+      <span class="ampstart-subtitle block px3 pt2 mb2">{{$entry.DisplayAt.Format "01/02"}} {{$entry.Title}}</span>
+      <p class="mb4 mx3">{{$entry.Body | nl2br}}</p>
+      <p class="mb4 mx3">by {{$entry.Author}}</p>
+  {{end}}
+  </main>
+  <!-- Music Logコンテンツ -->
 
 	<!-- Start Music Logコンテンツ -->
 	<main id="music-log" role="main" class="pt60">
@@ -452,3 +465,4 @@ limitations under the License.
   <!-- End Footer -->
 </body>
 </html>
+{{end}}

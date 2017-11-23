@@ -10,7 +10,7 @@ type Entry struct {
 	Id int
 	Author string
 	Title string
-	body string
+	Body string
 	DisplayAt time.Time
 	CreatedAt   time.Time
 	UpdatedAt   time.Time
@@ -45,7 +45,7 @@ limit
 	es := []*Entry{}
 	for rows.Next() {
 		e := Entry{}
-		err = rows.Scan(&e.Id, &e.Title, &e.Author, &e.body, &e.DeletedAt)
+		err = rows.Scan(&e.Id, &e.Title, &e.Author, &e.Body, &e.DisplayAt)
 		if err != nil {
 			return nil, err
 		}

@@ -5,9 +5,9 @@ import (
 	"html/template"
 	"net/http"
 	"path/filepath"
-	"fmt"
 	"log"
 	"encoding/json"
+	"strings"
 )
 
 const (
@@ -50,11 +50,20 @@ func (t *Top) show(w http.ResponseWriter, r *http.Request) {
 		filepath.Join("server", "view", "index.html"),
 		filepath.Join("server", "view", "amp-custom.html"),
 	}
-	tmp, err := template.ParseFiles(paths...)
+
+	funcMap := map[string]interface{}{
+		"nl2br": func(text string) template.HTML {
+			return template.HTML(strings.Replace(template.HTMLEscapeString(text), "\n", "<br>", -1))
+		},
+	}
+
+	tmp, err := template.New("base").Funcs(funcMap).ParseFiles(paths...)
 	if err != nil {
-		fmt.Println(err)
+		log.Println(err)
+		w.WriteHeader(500)
 		return
 	}
+
 	data := &struct {
 		SoundCloudTracks []*model.SoundCloudTrack
 		Entries          []*model.Entry
@@ -62,7 +71,12 @@ func (t *Top) show(w http.ResponseWriter, r *http.Request) {
 		SoundCloudTracks: ts,
 		Entries:          es,
 	}
-	tmp.Execute(w, data)
+	if err = tmp.Execute(w, data); err != nil {
+		log.Println(err)
+		w.WriteHeader(500)
+		return
+	}
+	w.WriteHeader(200)
 }
 
 func (t *Top) post(w http.ResponseWriter, r *http.Request) {

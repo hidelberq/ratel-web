@@ -7,7 +7,7 @@
 #
 # ホスト: 127.0.0.1 (MySQL 5.7.20)
 # データベース: ratel
-# 作成時刻: 2017-11-23 05:53:24 +0000
+# 作成時刻: 2017-11-23 16:57:42 +0000
 # ************************************************************
 
 
@@ -20,17 +20,32 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 
-# テーブルのダンプ body
+# テーブルのダンプ entry
 # ------------------------------------------------------------
 
-DROP TABLE IF EXISTS `body`;
+DROP TABLE IF EXISTS `entry`;
 
-CREATE TABLE `body` (
+CREATE TABLE `entry` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `author` int(11) DEFAULT NULL,
+  `title` varchar(32) NOT NULL DEFAULT '',
+  `author` varchar(32) NOT NULL DEFAULT '',
+  `body` varchar(4096) NOT NULL DEFAULT '',
+  `display_at` datetime NOT NULL,
+  `create_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `update_at` datetime DEFAULT NULL,
+  `delete_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+LOCK TABLES `entry` WRITE;
+/*!40000 ALTER TABLE `entry` DISABLE KEYS */;
+
+INSERT INTO `entry` (`id`, `title`, `author`, `body`, `display_at`, `create_at`, `update_at`, `delete_at`)
+VALUES
+	(1,'初ブログ！','hidelberq','初ブログです。\nサイトに新機能を色々つけてました。\n\n- ブログ機能 (今書いているここ)\n- お問合わせのフォーム\n- Music Log のデータをデータベースで管理する\n\n特に3番めが重要です。\n今まで Ito くんが音楽をつくってくれてるのにもかかわらず、\nHTMLを直接編集するのが辛くて更新してなかったですが、(すみません。。)\nこれからは、手軽に更新できるようになりました。\n\nRatel の新鮮な情報を発信して行きたいとおもうので、\nこれからもアクセスよろしくお願いします。。！','2017-11-23 15:13:00','2017-11-23 16:54:04',NULL,NULL);
+
+/*!40000 ALTER TABLE `entry` ENABLE KEYS */;
+UNLOCK TABLES;
 
 
 # テーブルのダンプ message
@@ -43,35 +58,10 @@ CREATE TABLE `message` (
   `name` varchar(128) NOT NULL DEFAULT '',
   `email` varchar(128) DEFAULT '',
   `body` varchar(4096) NOT NULL DEFAULT '',
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-LOCK TABLES `message` WRITE;
-/*!40000 ALTER TABLE `message` DISABLE KEYS */;
-
-INSERT INTO `message` (`id`, `name`, `email`, `body`)
-VALUES
-	(1,'aaa','aa@bbb','aaa'),
-	(2,'aaa','bbb@ccc','aaa'),
-	(3,'aaa','bbb@ccc','aaa'),
-	(4,'aaa','bbb@ccc','nulllll'),
-	(5,'aaa','abc@aa','aa'),
-	(6,'aaa','aa@bb','aaa'),
-	(7,'aaa','aa@bb','aaa'),
-	(8,'aaa','abc@aa','aa'),
-	(9,'aaa','aa@bb','aaa'),
-	(10,'aaa','aa@bb','aaa'),
-	(11,'aaa','aa@bb','aaa'),
-	(12,'aaa','aa@bb','aaa'),
-	(13,'aaa','aa@bb','aaa'),
-	(14,'aaa','aa@bb','aaa'),
-	(15,'aaa','aa@bb','aaa'),
-	(16,'aaa','aa@bb','aaa'),
-	(17,'aaa','abc@aa','a'),
-	(18,'aaa','abc@aa','a');
-
-/*!40000 ALTER TABLE `message` ENABLE KEYS */;
-UNLOCK TABLES;
 
 
 # テーブルのダンプ soundcloud_track
