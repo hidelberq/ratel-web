@@ -11,7 +11,8 @@ import (
 )
 
 const (
-	TOP_MUSIC_LOG = 3
+	MUSIC_LOG_NUM = 3
+	ENTRY_NUM     = 2
 )
 
 type Top struct {
@@ -38,8 +39,8 @@ func (t *Top) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 }
 
 func (t *Top) show(w http.ResponseWriter, r *http.Request) {
-	ts := t.soundCloudModel.FindAll(TOP_MUSIC_LOG)
-	es, err := t.entryModel.FindLatest(2)
+	ts := t.soundCloudModel.FindLatest(MUSIC_LOG_NUM)
+	es, err := t.entryModel.FindLatest(ENTRY_NUM)
 	if err != nil {
 		log.Println(err)
 		w.WriteHeader(500)

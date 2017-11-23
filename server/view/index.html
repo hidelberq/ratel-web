@@ -213,7 +213,7 @@ limitations under the License.
 
     <article class="photo-article">
         <span class="ampstart-subtitle block px3 pt2 mb2">1/25にライブを行います！</span>
-        1月25日にライブをやると思います。詳細が決まり次第またお伝えします。
+        来年 (2018年) 1月25日にライブをやると思います。詳細が決まり次第またお伝えします。
     </article>
 
 </main>
@@ -239,7 +239,7 @@ limitations under the License.
     <hr>
 {{range $track := .SoundCloudTracks}}
     <article class="photo-article">
-        <span class="ampstart-subtitle block px3 pt2 mb2">{{$track.DisplayTime.Format "01/02"}} {{$track.Title}}</span>
+        <span class="ampstart-subtitle block px3 pt2 mb2">{{$track.DisplayAt.Format "01/02"}} {{$track.Title}}</span>
         <amp-soundcloud class="tracking-click" height="130" layout="fixed-height" data-trackid="{{$track.TrackId}}"
                         data-visual="true" data-vars-name="{{$track.Name}}"></amp-soundcloud>
         <p class="mb4 mx3">by {{$track.Author}}</p>
@@ -385,7 +385,7 @@ limitations under the License.
     <h2>Contact</h2>
     <hr>
 
-    <p class="mb4 mx3">曲やライブを観ての感想・ブッキング・その他何でもお伝えください！</p>
+    <p class="mb4 mx3">楽曲やライブを観ての感想・ブッキング・その他何でもお伝えください！</p>
     <form method="post"
           action-xhr="/"
           target="_top"

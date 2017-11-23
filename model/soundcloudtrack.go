@@ -12,7 +12,7 @@ type SoundCloudTrack struct {
 	Title       string
 	Author      string
 	Description sql.NullString
-	DisplayTime time.Time
+	DisplayAt   time.Time
 	CreatedAt   time.Time
 	UpdatedAt   time.Time
 	DeletedAt   mysql.NullTime
@@ -26,12 +26,18 @@ func NewSoundCloudTrackModel(db sql.DB) *SoundcloudTrackModel {
 	return &SoundcloudTrackModel{db}
 }
 
-func (m *SoundcloudTrackModel) FindAll(limit int) []*SoundCloudTrack {
+func (m *SoundcloudTrackModel) FindLatest(limit int) []*SoundCloudTrack {
 	rows, err := m.db.Query(`
-	select track_id, name, title, author, description, display_time, created_at, updated_at
-	from soundcloud_track
-	where deleted_at is NULL
-	limit ?;`, limit)
+select
+	track_id, name, title, author, description, display_at, created_at, updated_at
+from
+	soundcloud_track
+where
+	deleted_at is NULL
+order by
+	display_at desc
+limit
+	?;`, limit)
 	if err != nil {
 		panic(err.Error())
 	}
@@ -39,7 +45,7 @@ func (m *SoundcloudTrackModel) FindAll(limit int) []*SoundCloudTrack {
 	ts := []*SoundCloudTrack{}
 	for rows.Next() {
 		t := SoundCloudTrack{}
-		err = rows.Scan(&t.TrackId, &t.Name, &t.Title, &t.Author, &t.Description, &t.DisplayTime, &t.CreatedAt, &t.UpdatedAt)
+		err = rows.Scan(&t.TrackId, &t.Name, &t.Title, &t.Author, &t.Description, &t.DisplayAt, &t.CreatedAt, &t.UpdatedAt)
 		if err != nil {
 			panic(err.Error())
 		}
