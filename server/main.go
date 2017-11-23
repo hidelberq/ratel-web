@@ -4,8 +4,9 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 	"net/http"
 	"database/sql"
-	"github.com/hidelbreq/ratel-web/server/handler"
+	//"github.com/hidelbreq/ratel-web/server/handler"
 	"log"
+	"github.com/hidelbreq/ratel-web/server/handler"
 )
 
 func main() {
@@ -20,8 +21,8 @@ func main() {
 	}
 	log.Println("db connection suceeded.")
 
-	http.FileServer(http.Dir("server/static/"))
 	opt := handler.Option{DB: *db}
+	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("server/static"))))
 	http.Handle("/", handler.NewTop(opt))
 	http.ListenAndServe(":8080", nil)
 }

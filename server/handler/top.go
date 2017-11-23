@@ -17,12 +17,14 @@ const (
 type Top struct {
 	soundCloudModel *model.SoundcloudTrackModel
 	messageModel *model.MessageModel
+	entryModel *model.EntryModel
 }
 
 func NewTop(opt Option) *Top {
 	return &Top{
 		soundCloudModel: model.NewSoundCloudTrackModel(opt.DB),
 		messageModel: model.NewMessageModel(opt.DB),
+		entryModel: model.NewBlogModel(opt.DB),
 	}
 }
 
@@ -37,6 +39,13 @@ func (t *Top) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 func (t *Top) show(w http.ResponseWriter, r *http.Request) {
 	ts := t.soundCloudModel.FindAll(TOP_MUSIC_LOG)
+	es, err := t.entryModel.FindLatest(2)
+	if err != nil {
+		log.Println(err)
+		w.WriteHeader(500)
+		return
+	}
+
 	paths := []string{
 		filepath.Join("server", "view", "index.html"),
 		filepath.Join("server", "view", "amp-custom.html"),
@@ -48,8 +57,10 @@ func (t *Top) show(w http.ResponseWriter, r *http.Request) {
 	}
 	data := &struct {
 		SoundCloudTracks []*model.SoundCloudTrack
+		Entries          []*model.Entry
 	}{
 		SoundCloudTracks: ts,
+		Entries:          es,
 	}
 	tmp.Execute(w, data)
 }

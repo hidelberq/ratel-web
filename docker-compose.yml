@@ -12,6 +12,7 @@ services:
       MYSQL_USER: user
       MYSQL_PASSWORD: pass
     volumes:
+      - "./mysql/my.cnf:/etc/mysql/my.cnf"
       - "./mysql/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d"
   app:
     build: .

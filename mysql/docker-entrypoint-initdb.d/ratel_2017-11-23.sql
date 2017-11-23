@@ -7,7 +7,7 @@
 #
 # ホスト: 127.0.0.1 (MySQL 5.7.20)
 # データベース: ratel
-# 作成時刻: 2017-11-23 05:53:24 +0000
+# 作成時刻: 2017-11-23 06:18:45 +0000
 # ************************************************************
 
 
@@ -20,17 +20,32 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 
-# テーブルのダンプ body
+# テーブルのダンプ blog
 # ------------------------------------------------------------
 
-DROP TABLE IF EXISTS `body`;
+DROP TABLE IF EXISTS `blog`;
 
-CREATE TABLE `body` (
+CREATE TABLE `blog` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `author` int(11) DEFAULT NULL,
+  `title` varchar(32) NOT NULL DEFAULT '',
+  `author` varchar(32) NOT NULL DEFAULT '',
+  `body` varchar(4096) NOT NULL DEFAULT '',
+  `display_at` datetime NOT NULL,
+  `create_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `update_at` datetime DEFAULT NULL,
+  `deleted_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+LOCK TABLES `blog` WRITE;
+/*!40000 ALTER TABLE `blog` DISABLE KEYS */;
+
+INSERT INTO `blog` (`id`, `title`, `author`, `body`, `display_at`, `create_at`, `update_at`, `deleted_at`)
+VALUES
+	(1,'サイトリニューアル','hidelberq','サイトに新機能を色々つけてました。\n\n- ブログ機能(今書いているここ)\n- お問合わせのフォーム\n- Music Log のデータをデータベースで管理する\n\n特に3番めが重要です。\n今まで Ito くんが音楽をつくってくれてるのにもかかわらず、\nHTMLを直接編集するのが尺で更新してなかったですが、(すみません。。)\nこれからは、手軽に更新できるようになりました。\n\nRatel の新鮮な情報を発信して行きたいとおもうので、\nこれからもアクセスよろしくお願いします。。！','2017-11-23 15:13:00','2017-11-23 06:14:58',NULL,NULL);
+
+/*!40000 ALTER TABLE `blog` ENABLE KEYS */;
+UNLOCK TABLES;
 
 
 # テーブルのダンプ message
