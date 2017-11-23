@@ -26,11 +26,12 @@ func NewSoundCloudTrackModel(db sql.DB) *SoundcloudTrackModel {
 	return &SoundcloudTrackModel{db}
 }
 
-func (m *SoundcloudTrackModel) FindAll() []*SoundCloudTrack {
+func (m *SoundcloudTrackModel) FindAll(limit int) []*SoundCloudTrack {
 	rows, err := m.db.Query(`
 	select track_id, name, title, author, description, display_time, created_at, updated_at
 	from soundcloud_track
-	where deleted_at is NULL;`)
+	where deleted_at is NULL
+	limit ?;`, limit)
 	if err != nil {
 		panic(err.Error())
 	}

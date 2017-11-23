@@ -7,6 +7,11 @@ import (
 	"path/filepath"
 	"fmt"
 	"log"
+	"encoding/json"
+)
+
+const (
+	TOP_MUSIC_LOG = 3
 )
 
 type Top struct {
@@ -31,8 +36,12 @@ func (t *Top) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 }
 
 func (t *Top) show(w http.ResponseWriter, r *http.Request) {
-	ts := t.soundCloudModel.FindAll()
-	tmp, err := template.ParseFiles(filepath.Join("server", "view", "index.html"))
+	ts := t.soundCloudModel.FindAll(TOP_MUSIC_LOG)
+	paths := []string{
+		filepath.Join("server", "view", "index.html"),
+		filepath.Join("server", "view", "amp-custom.html"),
+	}
+	tmp, err := template.ParseFiles(paths...)
 	if err != nil {
 		fmt.Println(err)
 		return
@@ -46,18 +55,29 @@ func (t *Top) show(w http.ResponseWriter, r *http.Request) {
 }
 
 func (t *Top) post(w http.ResponseWriter, r *http.Request) {
-	m := &model.Message{
-		r.FormValue("name"),
-		r.FormValue("email"),
-		r.FormValue("message"),
-	}
+	name := r.FormValue("name")
+	email := r.FormValue("email")
+	message := r.FormValue("message")
+
+	m := &model.Message{name, email, message}
 	if err := t.messageModel.Create(m); err != nil {
 		log.Println(err)
 		w.WriteHeader(500)
 		return
 	}
 
+	j, err := json.Marshal(struct {Name string} {name})
+	if err != nil {
+		log.Println(err)
+		w.WriteHeader(500)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.Header().Set("Access-Control-Allow-Origin", r.Header.Get("origin"))
+	w.Header().Set("AMP-Access-Control-Allow-Source-Origin", r.FormValue("__amp_source_origin"))
 	w.WriteHeader(200)
+	w.Write(j)
 }
 
 var _ http.Handler = (*Top)(nil)
