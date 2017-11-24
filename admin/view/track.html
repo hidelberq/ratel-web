@@ -1,0 +1,40 @@
+{{define "body"}}
+<h1>Soundcloud track</h1>
+<form action="/tracks/{{.Track.TrackId}}" method="post">
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">項目</th>
+                <th scope="col">更新後のデータ</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th scope="row">Track id</th>
+                <td><input type="text" id="input" value="{{$.Track.TrackId}}"></td>
+            </tr>
+            <tr>
+                <th scope="row">曲コード</th>
+                <td><input type="text" id="input" value="{{$.Track.Name}}"></td>
+            </tr>
+            <tr>
+                <th scope="row">タイトル</th>
+                <td><input type="text" id="input" value="{{.Track.Title}}"></td>
+            </tr>
+            <tr>
+                <th scope="row">作者</th>
+                <td><input type="text" id="input" value="{{.Track.Author}}"></td>
+            </tr>
+            <tr>
+                <th scope="row">表示時間</th>
+                <td><input id="party" type="datetime-local" name="partydate" value="{{.Track.DisplayAt.Format "2006-01-02T15:04:05"}}"></td>
+            </tr>
+            <tr>
+                <th scope="row">説明</th>
+                <td><textarea name="partydate" placeholder="{{.Track.Description}}" rows="3"></textarea></td>
+            </tr>
+        </tbody>
+    </table>
+    <input type="submit" value="Save">
+</form>
+{{end}}

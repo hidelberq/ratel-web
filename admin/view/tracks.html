@@ -1,0 +1,30 @@
+{{define "body"}}
+<h1>Soundcloud track</h1>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col">#</th>
+        <th scope="col">Track id</th>
+        <th scope="col">曲コード</th>
+        <th scope="col">タイトル</th>
+        <th scope="col">作者</th>
+        <th scope="col">表示時間</th>
+        <th scope="col">説明</th>
+    </tr>
+    </thead>
+    <tbody>
+{{range $t := .Tracks}}
+    <tr>
+        <th scope="row">1</th>
+        <td><a href="/tracks/{{$t.TrackId}}">{{$t.TrackId}}</a></td>
+        <td>{{$t.Name}}</td>
+        <td>{{$t.Title}}</td>
+        <td>{{$t.Author}}</td>
+        <td>{{$t.DisplayAt.Format "01/02"}}</td>
+        <td>{{$t.Description}}</td>
+    </tr>
+{{end}}
+    </tbody>
+</table>
+{{end}}

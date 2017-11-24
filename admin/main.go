@@ -2,7 +2,9 @@ package main
 
 import (
 	"database/sql"
+	"log"
 	"net/http"
+
 	"github.com/hidelbreq/ratel-web/admin/handler"
 )
 
@@ -17,9 +19,9 @@ func main() {
 		panic(err.Error())
 	}
 
-	http.FileServer(http.Dir("admin/static/"))
+	log.Println("DB connection succeeded.")
 	opt := handler.Option{DB: *db}
-	http.Handle("/soundcloud-track", handler.NewSoundcloud(opt))
-	http.ListenAndServe(":9090", nil)
+	http.Handle("/tracks/", handler.NewSoundcloud(opt))
+	http.ListenAndServe(":8080", nil)
 
 }

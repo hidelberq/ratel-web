@@ -16,14 +16,14 @@ const (
 )
 
 type Top struct {
-	soundCloudModel *model.SoundcloudTrackModel
+	soundCloudModel *model.TrackModel
 	messageModel *model.MessageModel
 	entryModel *model.EntryModel
 }
 
 func NewTop(opt Option) *Top {
 	return &Top{
-		soundCloudModel: model.NewSoundCloudTrackModel(opt.DB),
+		soundCloudModel: model.NewTrackModel(opt.DB),
 		messageModel: model.NewMessageModel(opt.DB),
 		entryModel: model.NewBlogModel(opt.DB),
 	}
@@ -66,7 +66,7 @@ func (t *Top) show(w http.ResponseWriter, r *http.Request) {
 	}
 
 	data := &struct {
-		SoundCloudTracks []*model.SoundCloudTrack
+		SoundCloudTracks []*model.Track
 		Entries          []*model.Entry
 	}{
 		SoundCloudTracks: ts,
@@ -77,7 +77,6 @@ func (t *Top) show(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(500)
 		return
 	}
-	w.WriteHeader(200)
 }
 
 func (t *Top) post(w http.ResponseWriter, r *http.Request) {

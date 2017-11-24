@@ -24,5 +24,5 @@ func main() {
 	opt := handler.Option{DB: *db}
 	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("server/static"))))
 	http.Handle("/", handler.NewTop(opt))
-	http.ListenAndServe(":8080", nil)
+	http.ListenAndServe(":80", nil)
 }
