@@ -76,3 +76,26 @@ where
 	return t, nil
 
 }
+
+func (m *TrackModel) Update(track *Track) error {
+	_, err := m.db.Exec(`
+update
+	soundcloud_track
+set
+	name = ?,
+	title = ?,
+	author = ?,
+	description = ?,
+	display_at = ?,
+	updated_at = ?
+where
+	track_id = ?;`,
+	track.Name,
+	track.Title,
+	track.Author,
+	track.Description,
+	track.DisplayAt,
+	track.UpdatedAt,
+	track.TrackId)
+	return err
+}

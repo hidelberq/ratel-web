@@ -10,6 +10,8 @@ import (
 	"github.com/hidelbreq/ratel-web/util"
 	"strings"
 	"strconv"
+	"time"
+	"fmt"
 )
 
 type Track struct {
@@ -23,14 +25,25 @@ func NewSoundcloud(opt Option) *Track {
 }
 
 func (trackHandler *Track) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	id := strings.TrimPrefix(r.URL.Path, "/tracks/")
+	if id == "" {
+		switch r.Method {
+		case "GET":
+			trackHandler.showAll(w, r)
+		}
+	}
+
+	i, err := strconv.Atoi(id);
+	if err != nil {
+		w.WriteHeader(404)
+		return
+	}
+
 	switch r.Method {
 	case "GET":
-		id := strings.TrimPrefix(r.URL.Path, "/tracks/")
-		if id == "" {
-			trackHandler.showAll(w, r)
-		} else {
-			trackHandler.show(w, r, id)
-		}
+		trackHandler.show(w, r, i)
+	case "POST":
+		trackHandler.update(w, r, i)
 	}
 
 
@@ -38,7 +51,6 @@ func (trackHandler *Track) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 func (trackHandler *Track) showAll(w http.ResponseWriter, r *http.Request)  {
 	ts := trackHandler.trackModel.FindLatest(100)
-
 	paths := []string {
 		filepath.Join("admin", "view", "base.html"),
 		filepath.Join("admin", "view", "tracks.html"),
@@ -61,14 +73,9 @@ func (trackHandler *Track) showAll(w http.ResponseWriter, r *http.Request)  {
 	}
 }
 
-func (trackHandler *Track) show(w http.ResponseWriter, r *http.Request, id string)  {
-	i, err := strconv.Atoi(id)
-	if err != nil {
-		w.WriteHeader(404)
-		return
-	}
-
-	track, err := trackHandler.trackModel.FindById(i)
+func (trackHandler *Track) show(w http.ResponseWriter, r *http.Request, id int)  {
+	track, err := trackHandler.trackModel.FindById(id)
+	log.Println(track.DisplayAt)
 	if err != nil {
 		w.WriteHeader(500)
 		return
@@ -100,3 +107,43 @@ func (trackHandler *Track) show(w http.ResponseWriter, r *http.Request, id strin
 		return
 	}
 }
+
+func (trackHandler *Track) update(w http.ResponseWriter, r *http.Request, id int)  {
+	name := r.FormValue("name")
+	title := r.FormValue("title")
+	author := r.FormValue("author")
+	loc, err := time.LoadLocation("Asia/Tokyo")
+	if err != nil {
+		log.Println(err)
+		return
+	}
+
+	displayAtStr := r.FormValue("display-at")
+	displayAt, err  := time.ParseInLocation("2006-01-02T15:04", displayAtStr, loc)
+	if err != nil {
+		log.Println(err)
+		w.WriteHeader(400)
+		return
+	}
+
+	description := r.FormValue("description")
+	updatedAt := time.Now()
+	t := &model.Track{
+		TrackId: id,
+		Name: name,
+		Title: title,
+		Author:author,
+		DisplayAt:displayAt,
+		Description:description,
+		UpdatedAt:updatedAt,
+	}
+
+	err = trackHandler.trackModel.Update(t)
+	if err != nil {
+		w.WriteHeader(500)
+		return
+	}
+
+	http.Redirect(w, r, fmt.Sprintf("/tracks/%d", id), 302)
+}
+
