@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"github.com/go-sql-driver/mysql"
 	"time"
+	"log"
 )
 
 type Track struct {
@@ -77,11 +78,12 @@ where
 
 }
 
-func (m *TrackModel) Update(track *Track) error {
+func (m *TrackModel) Update(id int, track *Track) error {
 	_, err := m.db.Exec(`
 update
 	soundcloud_track
 set
+	track_id = ?,
 	name = ?,
 	title = ?,
 	author = ?,
@@ -90,12 +92,40 @@ set
 	updated_at = ?
 where
 	track_id = ?;`,
+	track.TrackId,
 	track.Name,
 	track.Title,
 	track.Author,
 	track.Description,
 	track.DisplayAt,
 	track.UpdatedAt,
-	track.TrackId)
+	id)
+	return err
+}
+
+func (m *TrackModel) Create(track *Track) error {
+	ret, err := m.db.Exec(`
+insert into
+	soundcloud_track
+	(
+	track_id,
+	name,
+	title,
+	author,
+	description,
+	display_at,
+	updated_at
+	)
+values
+	(?, ?, ?, ?, ?, ?, ?);
+`,
+	track.TrackId,
+	track.Name,
+	track.Title,
+	track.Author,
+	track.Description,
+	track.DisplayAt,
+	track.UpdatedAt)
+	log.Println(ret, err)
 	return err
 }

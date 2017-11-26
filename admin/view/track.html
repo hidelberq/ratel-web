@@ -12,7 +12,7 @@
         <tbody>
             <tr>
                 <th scope="row">Track id</th>
-                <td>{{$.Track.TrackId}}</td>
+                <td><input type="text" name="track-id" value="{{.Track.TrackId}}"></td>
             </tr>
             <tr>
                 <th scope="row">曲コード</th>
@@ -32,7 +32,7 @@
             </tr>
             <tr>
                 <th scope="row">説明</th>
-                <td><textarea name="description" placeholder="{{.Track.Description}}" rows="3"></textarea></td>
+                <td><textarea name="description" value="{{.Track.Description}}" rows="3"></textarea></td>
             </tr>
         </tbody>
     </table>

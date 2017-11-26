@@ -1,6 +1,46 @@
 {{define "body"}}
-<h1>Soundcloud track</h1>
 
+<h1>Soundcloud track</h1>
+<h2>新規登録</h2>
+<form action="/tracks/" method="post">
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">項目</th>
+            <th scope="col">更新後のデータ</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <th scope="row">Track id</th>
+            <td><input type="text" name="track-id"></td>
+        </tr>
+        <tr>
+            <th scope="row">曲コード</th>
+            <td><input type="text" name="name"></td>
+        </tr>
+        <tr>
+            <th scope="row">タイトル</th>
+            <td><input type="text" name="title"></td>
+        </tr>
+        <tr>
+            <th scope="row">作者</th>
+            <td><input type="text" name="author"></td>
+        </tr>
+        <tr>
+            <th scope="row">表示時間</th>
+            <td><input type="datetime-local" name="display-at"></td>
+        </tr>
+        <tr>
+            <th scope="row">説明</th>
+            <td><textarea name="description" rows="3"></textarea></td>
+        </tr>
+        </tbody>
+    </table>
+    <input type="submit" value="作成">
+</form>
+
+<h2>トラック一覧</h2>
 <table class="table">
     <thead>
     <tr>
