@@ -21,8 +21,9 @@ func main() {
 
 	log.Println("DB connection succeeded.")
 	opt := handler.Option{DB: *db}
-	http.Handle("/tracks/", handler.NewSoundcloud(opt))
-	http.Handle("/entries/", handler.NewEntriesHandler(opt))
+	http.HandleFunc("/", handler.BasicAuth(handler.NewTopHandler(opt)))
+	http.HandleFunc("/tracks/", handler.BasicAuth(handler.NewSoundcloud(opt)))
+	http.HandleFunc("/entries/", handler.BasicAuth(handler.NewEntriesHandler(opt)))
 	http.ListenAndServe(":8080", nil)
 
 }

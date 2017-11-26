@@ -9,6 +9,21 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
 </head>
 <body>
+<header class="navbar navbar-expand flex-column flex-md-row bd-navbar">
+    <div class="navbar-nav-scroll">
+        <ul class="navbar-nav bd-navbar-nav flex-row">
+            <li class="nav-item">
+                <a class="nav-link " href="/">Top</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/tracks/">Soundcloud</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link " href="/entries/">Blog</a>
+            </li>
+        </ul>
+    </div>
+</header>
 {{template "body" .}}
 </body>
 </html>{{end}}
