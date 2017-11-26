@@ -4,7 +4,7 @@ import (
 	"time"
 )
 
-const HtmlLocalTimeFormat = "2006-01-02T15:04"
+const FormatDateTimeLocal = "2006-01-02T15:04"
 
 func ParseLocateTimeInJST(value string) (time.Time, error) {
 	loc, err := time.LoadLocation("Asia/Tokyo")
@@ -12,5 +12,5 @@ func ParseLocateTimeInJST(value string) (time.Time, error) {
 		return time.Time{}, err
 	}
 
-	return time.ParseInLocation(HtmlLocalTimeFormat, value, loc)
+	return time.ParseInLocation(FormatDateTimeLocal, value, loc)
 }

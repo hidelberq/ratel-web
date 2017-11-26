@@ -1,0 +1,34 @@
+{{define "body"}}
+<h2>記事更新</h2>
+<form action="/entries/{{.Entry.Id}}" method="post">
+    <table class="table">
+        <thead>
+        <th scope="col">項目</th>
+        <th scope="col">データ</th>
+        </thead>
+        <tbody>
+        <tr>
+            <th scope="row">タイトル</th>
+            <td><input type="text" name="title" value="{{.Entry.Title}}"></td>
+        </tr>
+        <tr>
+            <th scope="row">作者</th>
+            <td><input type="text" name="author" value="{{.Entry.Author}}"></td>
+        </tr>
+        <tr>
+            <th scope="row">本文</th>
+            <td><textarea rows="10" cols="60" name="body">{{.Entry.Body}}</textarea></td>
+        </tr>
+        <tr>
+            <th scope="row">表示時間</th>
+            <td><input type="datetime-local" name="display-at" value="{{format4datetimelocal .Entry.DisplayAt}}"></td>
+        </tr>
+        <tr>
+            <th scope="row">下書き</th>
+            <td><input type="checkbox" name="deleted" {{if .Entry.DeletedAt.Valid}}checked{{end}}></td>
+        </tr>
+        </tbody>
+    </table>
+    <input type="submit" value="更新">
+</form>
+{{end}}

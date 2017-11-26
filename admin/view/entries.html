@@ -1,0 +1,61 @@
+{{define "body"}}
+<h2>新規作成</h2>
+<form action="/entries/" method="post">
+    <table class="table">
+        <thead>
+            <th scope="col">項目</th>
+            <th scope="col">データ</th>
+        </thead>
+        <tbody>
+            <tr>
+                <th scope="row">タイトル</th>
+                <td><input type="text" name="title"></td>
+            </tr>
+            <tr>
+                <th scope="row">作者</th>
+                <td><input type="text" name="author"></td>
+            </tr>
+            <tr>
+                <th scope="row">本文</th>
+                <td><textarea rows="10" cols="60" name="body"></textarea></td>
+            </tr>
+            <tr>
+                <th scope="row">表示時間</th>
+                <td><input type="datetime-local" name="display-at"></td>
+            </tr>
+            <tr>
+                <th scope="row">下書き</th>
+                <td><input type="checkbox" name="deleted-at"></td>
+            </tr>
+        </tbody>
+    </table>
+    <input type="submit" value="投稿">
+</form>
+<h2>記事一覧</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">id</th>
+            <th scope="col">タイトル</th>
+            <th scope="col">作者</th>
+            <th scope="col">本文</th>
+            <th scope="col">表示時間</th>
+            <th scope="col">下書き</th>
+        </tr>
+    </thead>
+    <tbody>
+{{range $e := .Entries}}
+        <tr>
+            <th scope="row">1</th>
+            <td><a href="/entries/{{$e.Id}}">{{$e.Id}}</a></td>
+            <td>{{$e.Title}}</td>
+            <td>{{$e.Author}}</td>
+            <td>{{truncate $e.Body 10}}…</td>
+            <td>{{$e.DisplayAt}}</td>
+            <td>{{if $e.DeletedAt.Valid}}下書き{{end}}</td>
+        </tr>
+{{end}}
+    </tbody>
+</table>
+{{end}}

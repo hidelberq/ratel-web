@@ -25,7 +25,7 @@ func NewTop(opt Option) *Top {
 	return &Top{
 		soundCloudModel: model.NewTrackModel(opt.DB),
 		messageModel: model.NewMessageModel(opt.DB),
-		entryModel: model.NewBlogModel(opt.DB),
+		entryModel: model.NewEntryModel(opt.DB),
 	}
 }
 
