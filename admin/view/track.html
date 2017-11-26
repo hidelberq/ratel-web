@@ -32,7 +32,11 @@
             </tr>
             <tr>
                 <th scope="row">説明</th>
-                <td><textarea name="description" value="{{.Track.Description}}" rows="3"></textarea></td>
+                <td><textarea name="description" rows="3" cols="50">{{.Track.Description}}</textarea></td>
+            </tr>
+            <tr>
+                <th scope="row">削除</th>
+                <td><input type="checkbox" name="deleted" {{if .Track.DeletedAt.Valid}}checked{{end}}></td>
             </tr>
         </tbody>
     </table>

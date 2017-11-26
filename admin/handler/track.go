@@ -12,6 +12,7 @@ import (
 	"strconv"
 	"strings"
 	"time"
+	"github.com/go-sql-driver/mysql"
 )
 
 type Track struct {
@@ -51,14 +52,22 @@ func (trackHandler *Track) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 }
 
 func (trackHandler *Track) showAll(w http.ResponseWriter, r *http.Request) {
-	ts := trackHandler.trackModel.FindLatest(100)
+	ts, err := trackHandler.trackModel.FindAll(100)
+	if err != nil {
+		log.Println(err)
+		w.WriteHeader(500)
+		return
+	}
+
 	paths := []string{
 		filepath.Join("admin", "view", "base.html"),
 		filepath.Join("admin", "view", "tracks.html"),
 	}
+
 	tmpl, err := template.New("base").Funcs(util.FuncMap).ParseFiles(paths...)
 	if err != nil {
 		log.Println(err)
+		w.WriteHeader(500)
 		return
 	}
 
@@ -88,7 +97,6 @@ func (trackHandler *Track) show(w http.ResponseWriter, r *http.Request, id int) 
 
 	paths := []string{
 		filepath.Join("admin", "view", "base.html"),
-		filepath.Join("admin", "view", "track-update.html"),
 		filepath.Join("admin", "view", "track.html"),
 	}
 	tmpl, err := template.New("base").Funcs(util.FuncMap).ParseFiles(paths...)
@@ -111,17 +119,19 @@ func (trackHandler *Track) show(w http.ResponseWriter, r *http.Request, id int) 
 
 func (trackHandler *Track) update(w http.ResponseWriter, r *http.Request, id int) {
 	trackIdStr := r.FormValue("track-id")
+	name := r.FormValue("name")
+	title := r.FormValue("title")
+	author := r.FormValue("author")
+	displayAtStr := r.FormValue("display-at")
+	strDeleted := r.FormValue("deleted")
+	description := r.FormValue("description")
+
 	trackId, err := strconv.Atoi(trackIdStr)
 	if err != nil {
 		log.Println(err)
 		w.WriteHeader(400)
 		return
 	}
-
-	name := r.FormValue("name")
-	title := r.FormValue("title")
-	author := r.FormValue("author")
-	displayAtStr := r.FormValue("display-at")
 
 	displayAt, err := util.ParseLocateTimeInJST(displayAtStr)
 	if err != nil {
@@ -130,8 +140,13 @@ func (trackHandler *Track) update(w http.ResponseWriter, r *http.Request, id int
 		return
 	}
 
-	description := r.FormValue("description")
 	updatedAt := time.Now()
+	var deletedAt mysql.NullTime
+	if strDeleted == "on" {
+		deletedAt.Time = time.Now()
+		deletedAt.Valid = true
+	}
+
 	t := &model.Track{
 		TrackId:     trackId,
 		Name:        name,
@@ -140,6 +155,7 @@ func (trackHandler *Track) update(w http.ResponseWriter, r *http.Request, id int
 		DisplayAt:   displayAt,
 		Description: description,
 		UpdatedAt:   updatedAt,
+		DeletedAt:   deletedAt,
 	}
 
 	err = trackHandler.trackModel.Update(id, t)

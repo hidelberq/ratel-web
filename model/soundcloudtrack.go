@@ -34,7 +34,7 @@ select
 from
 	soundcloud_track
 where
-	deleted_at is NULL
+	deleted_at is null
 order by
 	display_at desc
 limit
@@ -55,6 +55,41 @@ limit
 	}
 
 	return ts
+}
+
+func (m *TrackModel) FindAll(limit int) ([]*Track, error) {
+	stmt, err := m.db.Prepare(
+		`
+select
+	track_id, name, title, author, description, display_at, created_at, updated_at, deleted_at
+from
+	soundcloud_track
+order by
+	display_at desc
+limit
+	?;
+	`)
+	if err != nil {
+		return nil, err
+	}
+
+	rows, err := stmt.Query(limit)
+	if err != nil {
+		return nil, err
+	}
+
+	ts := []*Track{}
+	for rows.Next() {
+		t := Track{}
+		err = rows.Scan(&t.TrackId, &t.Name, &t.Title, &t.Author, &t.Description, &t.DisplayAt, &t.CreatedAt, &t.UpdatedAt, &t.DeletedAt)
+		if err != nil {
+			return nil, err
+		}
+
+		ts = append(ts, &t)
+	}
+
+	return ts, nil
 }
 
 func (m *TrackModel) FindById(id int) (*Track, error) {
@@ -89,17 +124,19 @@ set
 	author = ?,
 	description = ?,
 	display_at = ?,
-	updated_at = ?
+	updated_at = ?,
+	deleted_at = ?
 where
 	track_id = ?;`,
-	track.TrackId,
-	track.Name,
-	track.Title,
-	track.Author,
-	track.Description,
-	track.DisplayAt,
-	track.UpdatedAt,
-	id)
+		track.TrackId,
+		track.Name,
+		track.Title,
+		track.Author,
+		track.Description,
+		track.DisplayAt,
+		track.UpdatedAt,
+		track.DeletedAt,
+		id)
 	return err
 }
 
@@ -119,13 +156,13 @@ insert into
 values
 	(?, ?, ?, ?, ?, ?, ?);
 `,
-	track.TrackId,
-	track.Name,
-	track.Title,
-	track.Author,
-	track.Description,
-	track.DisplayAt,
-	track.UpdatedAt)
+		track.TrackId,
+		track.Name,
+		track.Title,
+		track.Author,
+		track.Description,
+		track.DisplayAt,
+		track.UpdatedAt)
 	log.Println(ret, err)
 	return err
 }
