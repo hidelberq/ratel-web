@@ -22,3 +22,11 @@ services:
       - mysql
     links:
       - mysql
+  admin:
+    image: admin
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mysql
+    links:
+      - mysql
