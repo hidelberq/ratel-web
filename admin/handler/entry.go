@@ -83,6 +83,7 @@ func (eh *EntriesHandler) post(w http.ResponseWriter, r *http.Request) {
 	displayAt, err := util.ParseLocateTimeInJST(strDisplayAt)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
+		w.Write([]byte(strDisplayAt))
 		return
 	}
 

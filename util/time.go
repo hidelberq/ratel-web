@@ -6,7 +6,7 @@ import (
 )
 
 const FormatDateTimeLocalPCChrome = "2006-01-02T15:04"
-const FormatDateTimeLocaliPhoneSafari = "2006-01-02T15:04.999"
+const FormatDateTimeLocaliPhoneSafari = "2006-01-02T15:04:05.999"
 
 func ParseLocateTimeInJST(value string) (time.Time, error) {
 	log.Println(value)
