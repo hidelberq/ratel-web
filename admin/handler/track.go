@@ -7,12 +7,13 @@ import (
 	"path/filepath"
 
 	"fmt"
-	"github.com/hidelbreq/ratel-web/model"
-	"github.com/hidelbreq/ratel-web/util"
 	"strconv"
 	"strings"
 	"time"
+
 	"github.com/go-sql-driver/mysql"
+	"github.com/hidelbreq/ratel-web/model"
+	"github.com/hidelbreq/ratel-web/util"
 )
 
 type Track struct {
