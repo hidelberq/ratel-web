@@ -19,7 +19,7 @@ var FuncMap = map[string]interface{}{
 		return template.HTML(r[0:length])
 	},
 	"format4datetimelocal": func(t time.Time) string {
-		return t.Format(FormatDateTimeLocal)
+		return t.Format(FormatDateTimeLocalPCChrome)
 	},
 }
 
