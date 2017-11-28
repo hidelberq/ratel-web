@@ -63,8 +63,10 @@ func (eh *EntriesHandler) showAll(w http.ResponseWriter, r *http.Request) {
 
 	data := &struct {
 		Entries []*model.Entry
+		Now     time.Time
 	}{
 		es,
+		time.Now(),
 	}
 	err = util.ExecuteOnAdminBase(w, data, filepath.Join("admin", "view", "entries.html"))
 	if err != nil {
