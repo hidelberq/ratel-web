@@ -1,16 +1,18 @@
 package main
 
 import (
-	_ "github.com/go-sql-driver/mysql"
-	"net/http"
 	"database/sql"
+	"net/http"
+
+	_ "github.com/go-sql-driver/mysql"
 	//"github.com/hidelbreq/ratel-web/server/handler"
 	"log"
+
 	"github.com/hidelbreq/ratel-web/server/handler"
 )
 
 func main() {
-	db, err := sql.Open("mysql", "user:pass@tcp(mysql:3306)/ratel?parseTime=true&loc=Asia%2FTokyo")
+	db, err := sql.Open("mysql", "user:pass@tcp(mysql:3306)/ratel?parseTime=true&loc=Asia%2FTokyo&charset=utf8mb4")
 	if err != nil {
 		log.Fatal(err)
 	}

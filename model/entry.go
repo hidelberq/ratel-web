@@ -126,7 +126,7 @@ values
 
 	defer stmt.Close()
 
-	ret, err := stmt.Exec(e.Title, e.Author, e.Body, e.DisplayAt, e.DeletedAt)
+	ret, err := stmt.Exec(e.Author, e.Title, e.Body, e.DisplayAt, e.DeletedAt)
 	if err != nil {
 		return nil, err
 	}
