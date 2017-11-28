@@ -71,6 +71,8 @@ limit
 		return nil, err
 	}
 
+	defer stmt.Close()
+
 	rows, err := stmt.Query(limit)
 	if err != nil {
 		return nil, err
@@ -102,6 +104,8 @@ where
 		return nil, err
 	}
 
+	defer stmt.Close()
+
 	row := stmt.QueryRow(id)
 	e := &Entry{}
 	err = row.Scan(&e.Id, &e.Title, &e.Author, &e.Body, &e.DisplayAt, &e.DeletedAt)
@@ -119,6 +123,8 @@ values
 	if err != nil {
 		return nil, err
 	}
+
+	defer stmt.Close()
 
 	ret, err := stmt.Exec(e.Title, e.Author, e.Body, e.DisplayAt, e.DeletedAt)
 	if err != nil {
@@ -143,6 +149,8 @@ where
 	if err != nil {
 		return nil, err
 	}
+
+	defer stmt.Close()
 
 	return stmt.Exec(
 		e.Author,

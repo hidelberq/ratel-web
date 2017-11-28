@@ -2,9 +2,10 @@ package model
 
 import (
 	"database/sql"
-	"github.com/go-sql-driver/mysql"
-	"time"
 	"log"
+	"time"
+
+	"github.com/go-sql-driver/mysql"
 )
 
 type Track struct {
@@ -72,6 +73,8 @@ limit
 	if err != nil {
 		return nil, err
 	}
+
+	defer stmt.Close()
 
 	rows, err := stmt.Query(limit)
 	if err != nil {
