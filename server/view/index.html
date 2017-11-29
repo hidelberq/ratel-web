@@ -220,19 +220,6 @@ limitations under the License.
 <!-- End Newsコンテンツ -->
 
 <!-- Start Music Logコンテンツ -->
-<main id="blog" role="main" class="pt60">
-
-    <h2>Blog</h2>
-    <hr>
-{{range $entry := .Entries}}
-    <span class="ampstart-subtitle block px3 pt2 mb2">{{$entry.DisplayAt.Format "01/02"}} {{$entry.Title}}</span>
-    <p class="mb4 mx3">{{$entry.Body | nl2br}}</p>
-    <p class="mb4 mx3">by {{$entry.Author}}</p>
-{{end}}
-</main>
-<!-- Music Logコンテンツ -->
-
-<!-- Start Music Logコンテンツ -->
 <main id="music-log" role="main" class="pt60">
 
     <h2>Music Log</h2>
@@ -248,6 +235,18 @@ limitations under the License.
 </main>
 <!-- Music Logコンテンツ -->
 
+<!-- Start Music Logコンテンツ -->
+<main id="blog" role="main" class="pt60">
+
+    <h2>Blog</h2>
+    <hr>
+{{range $entry := .Entries}}
+    <span class="ampstart-subtitle block px3 pt2 mb2">{{$entry.DisplayAt.Format "01/02"}} {{$entry.Title}}</span>
+    <p class="mb4 mx3">{{$entry.Body | nl2br}}</p>
+    <p class="mb4 mx3">by {{$entry.Author}}</p>
+{{end}}
+</main>
+<!-- Music Logコンテンツ -->
 
 <!-- Start Worksコンテンツ -->
 <main id="works" role="main" class="pt60">

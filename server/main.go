@@ -11,8 +11,11 @@ import (
 	"github.com/hidelbreq/ratel-web/server/handler"
 )
 
+var db *sql.DB
+
 func main() {
-	db, err := sql.Open("mysql", "user:pass@tcp(mysql:3306)/ratel?parseTime=true&loc=Asia%2FTokyo&charset=utf8mb4")
+	var err error
+	db, err = sql.Open("mysql", "user:pass@tcp(mysql:3306)/ratel?parseTime=true&loc=Asia%2FTokyo&charset=utf8mb4")
 	if err != nil {
 		log.Fatal(err)
 	}
