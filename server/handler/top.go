@@ -1,13 +1,14 @@
 package handler
 
 import (
-	"github.com/hidelbreq/ratel-web/model"
+	"encoding/json"
 	"html/template"
+	"log"
 	"net/http"
 	"path/filepath"
-	"log"
-	"encoding/json"
-	"strings"
+
+	"github.com/hidelbreq/ratel-web/model"
+	"github.com/hidelbreq/ratel-web/util"
 )
 
 const (
@@ -17,15 +18,15 @@ const (
 
 type Top struct {
 	soundCloudModel *model.TrackModel
-	messageModel *model.MessageModel
-	entryModel *model.EntryModel
+	messageModel    *model.MessageModel
+	entryModel      *model.EntryModel
 }
 
 func NewTop(opt Option) *Top {
 	return &Top{
 		soundCloudModel: model.NewTrackModel(opt.DB),
-		messageModel: model.NewMessageModel(opt.DB),
-		entryModel: model.NewEntryModel(opt.DB),
+		messageModel:    model.NewMessageModel(opt.DB),
+		entryModel:      model.NewEntryModel(opt.DB),
 	}
 }
 
@@ -52,13 +53,7 @@ func (t *Top) show(w http.ResponseWriter, r *http.Request) {
 		filepath.Join("server", "view", "amp-custom.html"),
 	}
 
-	funcMap := map[string]interface{}{
-		"nl2br": func(text string) template.HTML {
-			return template.HTML(strings.Replace(template.HTMLEscapeString(text), "\n", "<br>", -1))
-		},
-	}
-
-	tmp, err := template.New("base").Funcs(funcMap).ParseFiles(paths...)
+	tmp, err := template.New("base").Funcs(util.FuncMap).ParseFiles(paths...)
 	if err != nil {
 		log.Println(err)
 		w.WriteHeader(500)
@@ -91,7 +86,7 @@ func (t *Top) post(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	j, err := json.Marshal(struct {Name string} {name})
+	j, err := json.Marshal(struct{ Name string }{name})
 	if err != nil {
 		log.Println(err)
 		w.WriteHeader(500)

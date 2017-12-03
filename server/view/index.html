@@ -229,6 +229,7 @@ limitations under the License.
         <span class="ampstart-subtitle block px3 pt2 mb2">{{$track.DisplayAt.Format "01/02"}} {{$track.Title}}</span>
         <amp-soundcloud class="tracking-click" height="130" layout="fixed-height" data-trackid="{{$track.TrackId}}"
                         data-visual="true" data-vars-name="{{$track.Name}}"></amp-soundcloud>
+        <p class="mb4 mx3">{{nl2br $track.Description}}</p>
         <p class="mb4 mx3">by {{$track.Author}}</p>
     </article>
 {{end}}
