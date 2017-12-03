@@ -28,7 +28,7 @@
             </tr>
             <tr>
                 <th scope="row">表示時間</th>
-                <td><input type="datetime-local" name="display-at" value="{{.Track.DisplayAt.Format "2006-01-02T15:04"}}"></td>
+                <td><input type="datetime" name="display-at" value="{{format4datetime .Track.DisplayAt}}"></td>
             </tr>
             <tr>
                 <th scope="row">説明</th>

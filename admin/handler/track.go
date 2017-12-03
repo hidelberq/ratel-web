@@ -73,8 +73,10 @@ func (trackHandler *Track) showAll(w http.ResponseWriter, r *http.Request) {
 	}
 
 	data := &struct {
+		Now    time.Time
 		Tracks []*model.Track
 	}{
+		time.Now(),
 		ts,
 	}
 	err = tmpl.Execute(w, data)

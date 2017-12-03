@@ -18,7 +18,7 @@ var FuncMap = map[string]interface{}{
 		r := []rune(replaced)
 		return template.HTML(r[0:length])
 	},
-	"format4datetimelocal": func(t time.Time) string {
+	"format4datetime": func(t time.Time) string {
 		return t.Format(FormatDateTimeLocalPCChrome)
 	},
 }
