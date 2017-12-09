@@ -5,18 +5,17 @@ import (
 	"html/template"
 	"log"
 	"net/http"
-	"path/filepath"
 
 	"github.com/hidelbreq/ratel-web/model"
-	"github.com/hidelbreq/ratel-web/util"
 )
 
 const (
-	MUSIC_LOG_NUM = 3
-	ENTRY_NUM     = 2
+	TOP_MUSIC_LOG_NUM = 4
+	TOP_ENTRY_NUM     = 3
 )
 
 type Top struct {
+	tmpl            *template.Template
 	soundCloudModel *model.TrackModel
 	messageModel    *model.MessageModel
 	entryModel      *model.EntryModel
@@ -24,6 +23,7 @@ type Top struct {
 
 func NewTop(opt Option) *Top {
 	return &Top{
+		tmpl:            opt.Tmpl,
 		soundCloudModel: model.NewTrackModel(opt.DB),
 		messageModel:    model.NewMessageModel(opt.DB),
 		entryModel:      model.NewEntryModel(opt.DB),
@@ -40,25 +40,20 @@ func (t *Top) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 }
 
 func (t *Top) show(w http.ResponseWriter, r *http.Request) {
-	ts, err := t.soundCloudModel.FindLatest(MUSIC_LOG_NUM)
-	if err != nil {
-		log.Println(err)
-		w.WriteHeader(500)
-		return
-	}
-	es, err := t.entryModel.FindLatest(ENTRY_NUM)
+	ts, err := t.soundCloudModel.FindLatest(TOP_MUSIC_LOG_NUM)
 	if err != nil {
 		log.Println(err)
 		w.WriteHeader(500)
 		return
 	}
 
-	paths := []string{
-		filepath.Join("server", "view", "index.html"),
-		filepath.Join("server", "view", "amp-custom.html"),
+	es, err := t.entryModel.FindLatest(TOP_ENTRY_NUM)
+	if err != nil {
+		log.Println(err)
+		w.WriteHeader(500)
+		return
 	}
 
-	tmp, err := template.New("base").Funcs(util.FuncMap).ParseFiles(paths...)
 	if err != nil {
 		log.Println(err)
 		w.WriteHeader(500)
@@ -72,7 +67,7 @@ func (t *Top) show(w http.ResponseWriter, r *http.Request) {
 		SoundCloudTracks: ts,
 		Entries:          es,
 	}
-	if err = tmp.Execute(w, data); err != nil {
+	if err = t.tmpl.ExecuteTemplate(w, "top", data); err != nil {
 		log.Println(err)
 		w.WriteHeader(500)
 		return

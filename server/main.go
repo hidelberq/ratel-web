@@ -3,14 +3,16 @@ package main
 import (
 	"database/sql"
 	"io"
+	"log"
 	"net/http"
 	"os"
 
-	_ "github.com/go-sql-driver/mysql"
-	//"github.com/hidelbreq/ratel-web/server/handler"
-	"log"
+	"html/template"
+	"path/filepath"
 
+	_ "github.com/go-sql-driver/mysql"
 	"github.com/hidelbreq/ratel-web/server/handler"
+	"github.com/hidelbreq/ratel-web/util"
 )
 
 var db *sql.DB
@@ -30,17 +32,27 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+
 	defer db.Close()
 	err = db.Ping()
 	if err != nil {
 		log.Fatal(err)
 	}
+
 	log.Println("db connection suceeded.")
 
-	opt := handler.Option{DB: *db}
+	pattern := filepath.Join("server", "view", "*.html")
+	tmp, err := template.New("").Funcs(util.FuncMap).ParseGlob(pattern)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	opt := handler.Option{DB: *db, Tmpl: tmp}
+
 	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("server/static"))))
 	http.Handle("/", handler.NewTop(opt))
-	err = http.ListenAndServe(":80", nil)
+	http.Handle("/entries/", handler.NewEntry(opt))
+	err = http.ListenAndServe(":8081", nil)
 	if err != nil {
 		log.Fatal(err)
 	}

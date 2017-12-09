@@ -1,7 +1,11 @@
 package handler
 
-import "database/sql"
+import (
+	"database/sql"
+	"html/template"
+)
 
 type Option struct {
-	DB sql.DB
+	DB   sql.DB
+	Tmpl *template.Template
 }

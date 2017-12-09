@@ -27,7 +27,7 @@ func NewEntryModel(db sql.DB) *EntryModel {
 }
 
 func (em *EntryModel) FindLatest(limit int) ([]*Entry, error) {
-	rows, err := em.db.Query(`
+	stmt, err := em.db.Prepare(`
 select
 	id, title, author, body, display_at
 from
@@ -38,7 +38,13 @@ order by
 	display_at desc
 limit
 	?;
-`, limit)
+`)
+	if err != nil {
+		return nil, err
+	}
+
+	defer stmt.Close()
+	rows, err := stmt.Query(limit)
 	if err != nil {
 		return nil, err
 	}
