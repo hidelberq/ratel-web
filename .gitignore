@@ -1,6 +1,9 @@
 
 # Created by https://www.gitignore.io/api/go,intellij
 
+### mac ###
+.DS_Store
+
 ### Go ###
 # Binaries for programs and plugins
 *.exe
@@ -23,3 +26,8 @@ vendor/
 ### Intellij ###
 .idea/
 projectFilesBackup/
+
+# log管理
+/logs/*
+!/logs/.gitkeep
+
