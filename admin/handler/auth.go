@@ -20,5 +20,5 @@ func checkAuth(r *http.Request) bool {
 		return false
 	}
 
-	return username == "grandcolline" && password == "Iwann@B1g"
+	return username == "grand" && password == "big"
 }
