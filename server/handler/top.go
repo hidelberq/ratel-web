@@ -40,7 +40,12 @@ func (t *Top) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 }
 
 func (t *Top) show(w http.ResponseWriter, r *http.Request) {
-	ts := t.soundCloudModel.FindLatest(MUSIC_LOG_NUM)
+	ts, err := t.soundCloudModel.FindLatest(MUSIC_LOG_NUM)
+	if err != nil {
+		log.Println(err)
+		w.WriteHeader(500)
+		return
+	}
 	es, err := t.entryModel.FindLatest(ENTRY_NUM)
 	if err != nil {
 		log.Println(err)
