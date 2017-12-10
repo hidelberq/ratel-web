@@ -52,7 +52,7 @@ func main() {
 	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("server/static"))))
 	http.Handle("/", handler.NewTop(opt))
 	http.Handle("/entries/", handler.NewEntry(opt))
-	err = http.ListenAndServe(":8081", nil)
+	err = http.ListenAndServe(":80", nil)
 	if err != nil {
 		log.Fatal(err)
 	}
