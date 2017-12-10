@@ -28,7 +28,7 @@ func NewTrackModel(db sql.DB) *TrackModel {
 	return &TrackModel{db}
 }
 
-func (m *TrackModel) FindLatest(limit int) []*Track {
+func (m *TrackModel) FindLatest(limit int) ([]*Track, error) {
 	rows, err := m.db.Query(`
 select
 	track_id, name, title, author, description, display_at, created_at, updated_at, deleted_at
@@ -41,7 +41,7 @@ order by
 limit
 	?;`, limit)
 	if err != nil {
-		panic(err.Error())
+		return nil, err
 	}
 
 	ts := []*Track{}
@@ -49,13 +49,13 @@ limit
 		t := Track{}
 		err = rows.Scan(&t.TrackId, &t.Name, &t.Title, &t.Author, &t.Description, &t.DisplayAt, &t.CreatedAt, &t.UpdatedAt, &t.DeletedAt)
 		if err != nil {
-			panic(err.Error())
+			return nil, err
 		}
 
 		ts = append(ts, &t)
 	}
 
-	return ts
+	return ts, nil
 }
 
 func (m *TrackModel) FindAll(limit int) ([]*Track, error) {
