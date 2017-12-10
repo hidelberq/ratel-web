@@ -1,0 +1,250 @@
+{{define "top"}}
+{{template "header" .}}
+<!-- Start TOPページ -->
+<figure id="top" class="ampstart-image-fullpage-hero m0 relative mb4">
+    <amp-img width="404" height="720" alt="Ratel Main Photo" layout="responsive" src="./static/img/top_narrow.png"
+             media="(max-width: 415px)"></amp-img>
+    <amp-img height="720" alt="Ratel Main Photo" layout="fixed-height" src="./static/img/top_wide.jpg"
+             media="(min-width: 416px)"></amp-img>
+    <figcaption class="absolute top-0 right-0 bottom-0 left-0">
+
+        <header class="p3">
+            <h1 class="ampstart-fullpage-hero-heading mb3">
+					<span class="ampstart-fullpage-hero-heading-text">
+						Ratel
+					</span>
+            </h1>
+        </header>
+
+        <footer class="absolute left-0 right-0 bottom-0">
+            <a class="ampstart-readmore py3 caps line-height-2 text-decoration-none center block h5" href="#news">
+                <span class="ampstart-readmore-text px1">More Info</span>
+            </a>
+        </footer>
+
+    </figcaption>
+</figure>
+<!-- End TOPページ -->
+
+<!-- Start News コンテンツ -->
+<main id="news" role="main" class="pt60">
+
+    <h2>News</h2>
+    <hr>
+
+    <article class="photo-article">
+        <span class="ampstart-subtitle block px3 pt2 mb2">1/25にライブを行います！</span>
+        来年 (2018年) 1月25日にライブをやると思います。詳細が決まり次第またお伝えします。
+    </article>
+
+</main>
+<!-- End Newsコンテンツ -->
+
+<!-- Start Music Logコンテンツ -->
+<main id="music-log" role="main" class="pt60">
+
+    <h2>Music Log</h2>
+    <hr>
+{{range $track := .SoundCloudTracks}}
+    <article class="photo-article">
+        <span class="ampstart-subtitle block px3 pt2 mb2">{{$track.DisplayAt.Format "01/02"}} {{$track.Title}}</span>
+        <amp-soundcloud class="tracking-click" height="130" layout="fixed-height" data-trackid="{{$track.TrackId}}"
+                        data-visual="true" data-vars-name="{{$track.Name}}"></amp-soundcloud>
+        <p class="mb4 mx3">{{nl2br $track.Description}}</p>
+        <p class="mb4 mx3">by {{$track.Author}}</p>
+    </article>
+{{end}}
+</main>
+<!-- Music Logコンテンツ -->
+
+<!-- Start Music Logコンテンツ -->
+<main id="blog" role="main" class="pt60">
+
+    <h2>Blog</h2>
+    <hr>
+{{range $entry := .Entries}}
+    <span class="ampstart-subtitle block px3 pt2 mb2">{{$entry.DisplayAt.Format "01/02"}} {{$entry.Title}}</span>
+    <p class="mb4 mx3">{{$entry.Body | nl2br}}</p>
+    <p class="mb4 mx3">by {{$entry.Author}}</p>
+{{end}}
+    <p class="mb4 mx3 center">
+        <a href="/entries/" class="inline-block p1">他の記事もみる</a>
+    </p>
+</main>
+<!-- Music Logコンテンツ -->
+
+<!-- Start Worksコンテンツ -->
+<main id="works" role="main" class="pt60">
+
+    <h2>Works</h2>
+    <hr>
+
+    <article class="photo-article">
+        <span class="ampstart-subtitle block px3 pt2 mb2">Live (2017.10.5)</span>
+        <amp-youtube data-videoid="QnOpNvnKa5g" layout="responsive" width="379" height="249"
+                     class="p0 mb4 px3"></amp-youtube>
+        <p class="mb4 mx3">@下北沢ろくでもない夜</p>
+    </article>
+
+    <article class="photo-article">
+        <span class="ampstart-subtitle block px3 pt2 mb2">ダブルバインド</span>
+        <amp-soundcloud class="tracking-click" height="130" layout="fixed-height" data-trackid="229280172"
+                        data-visual="true" data-vars-track-id="229280172"></amp-soundcloud>
+        <p class="mb4 mx3">by 抑止力</p>
+    </article>
+
+    <article class="photo-article">
+        <span class="ampstart-subtitle block px3 pt2 mb2">Only A Glimpse Left</span>
+        <amp-soundcloud class="tracking-click" height="130" layout="fixed-height" data-trackid="273231757"
+                        data-visual="true" data-vars-track-id="273231757"></amp-soundcloud>
+        <p class="mb4 mx3">by Hisanori Ito</p>
+    </article>
+
+    <article class="photo-article">
+        <span class="ampstart-subtitle block px3 pt2 mb2">3拍子っぽいうた</span>
+        <amp-soundcloud class="tracking-click" height="130" layout="fixed-height" data-trackid="236228582"
+                        data-visual="true" data-vars-track-id="236228582"></amp-soundcloud>
+        <p class="mb4 mx3">by grandcolline</p>
+    </article>
+
+    <article class="photo-article">
+        <span class="ampstart-subtitle block px3 pt2 mb2">日曜ブギ (instrumental)</span>
+        <amp-soundcloud class="tracking-click" height="130" layout="fixed-height" data-trackid="295569754"
+                        data-visual="true" data-vars-track-id="295569754"></amp-soundcloud>
+        <p class="mb4 mx3">by hidelberq</p>
+    </article>
+
+</main>
+<!-- End Worksコンテンツ -->
+
+
+<!-- Start Memberコンテンツ -->
+<main id="member" role="main" class="pt60">
+
+    <h2>Member</h2>
+    <hr>
+
+    <!-- 抑止力 -->
+    <span id="yokushiryoku" class="ampstart-subtitle block px3 pt2 mb2">抑止力 (Vo)</span>
+    <p class="mb4 mx3">
+        <a href="https://twitter.com/Yoshihiro_GMX" target="_blank" class="inline-block p1">
+            <i class="fa fa-twitter fa-lg" aria-hidden="true"></i>
+        </a>
+        <a href="https://www.instagram.com/yokushiryoku/" target="_blank" class="inline-block p1">
+            <i class="fa fa-instagram fa-lg" aria-hidden="true"></i>
+        </a>
+        <a href="https://soundcloud.com/yokushiryoku19930326" target="_blank" class="inline-block p1">
+            <i class="fa fa-soundcloud fa-lg" aria-hidden="true"></i>
+        </a>
+    </p>
+
+    <!-- ハイデル -->
+    <span id="hidelberq" class="ampstart-subtitle block px3 pt2 mb2">hidelberq (DJ)</span>
+    <p class="mb4 mx3">
+        <a href="https://twitter.com/hidelberq" target="_blank" class="inline-block p1">
+            <i class="fa fa-twitter fa-lg" aria-hidden="true"></i>
+        </a>
+        <a href="https://www.instagram.com/hidelberq" target="_blank" class="inline-block p1">
+            <i class="fa fa-instagram fa-lg" aria-hidden="true"></i>
+        </a>
+        <a href="https://soundcloud.com/hidelberq" target="_blank" class="inline-block p1">
+            <i class="fa fa-soundcloud fa-lg" aria-hidden="true"></i>
+        </a>
+        <a href="https://github.com/hidelberq" target="_blank" class="inline-block p1">
+            <i class="fa fa-github fa-lg" aria-hidden="true"></i>
+        </a>
+        <a href="https://ameblo.jp/hidelberq/" target="_blank" class="inline-block p1">
+            Blog
+        </a>
+    </p>
+
+    <span id="ito_hisanori" class="ampstart-subtitle block px3 pt2 mb2">Hisanori Ito (Gt/Ba)</span>
+    <p class="mb4 mx3">
+        <a href="https://twitter.com/ito_hisanori" target="_blank" class="inline-block p1">
+            <i class="fa fa-twitter fa-lg" aria-hidden="true"></i>
+        </a>
+        <a href="https://soundcloud.com/hisanori_ito" target="_blank" class="inline-block p1">
+            <i class="fa fa-soundcloud fa-lg" aria-hidden="true"></i>
+        </a>
+        <a href="https://soundcloud.com/user-418594988" target="_blank" class="inline-block p1">
+            <i class="fa fa-soundcloud fa-lg" aria-hidden="true"></i>(@Limnt)
+        </a>
+    </p>
+
+    <span id="grandcolline" class="ampstart-subtitle block px3 pt2 mb2">grandcolline (Gt/Ba)</span>
+    <p class="mb4 mx3">
+        <a href="https://twitter.com/grandcolline" target="_blank" class="inline-block p1">
+            <i class="fa fa-twitter fa-lg" aria-hidden="true"></i>
+        </a>
+        <a href="https://www.instagram.com/grandcolline/" target="_blank" class="inline-block p1">
+            <i class="fa fa-instagram fa-lg" aria-hidden="true"></i>
+        </a>
+        <a href="https://soundcloud.com/grandcolline" target="_blank" class="inline-block p1">
+            <i class="fa fa-soundcloud fa-lg" aria-hidden="true"></i>
+        </a>
+        <a href="https://github.com/grandcolline" target="_blank" class="inline-block p1">
+            <i class="fa fa-github fa-lg" aria-hidden="true"></i>
+        </a>
+    </p>
+
+</main>
+<!-- End Aboutコンテンツ -->
+
+
+<!-- Start Aboutコンテンツ -->
+<main id="about" role="main" class="pt60">
+
+    <h2>About</h2>
+    <hr>
+
+    <p class="mb4 mx3">4人組の音楽グループ Ratel (ラーテル) の公式サイトです。Ratel はHip Hop, Rock
+        といったジャンルを織り交ぜた独自の音楽スタイルで音源発表やライブを行っています。個々人での活動にも力を入れています。ブッキング等は、<a
+                href="mailto:ratel-official@googlegroups.com" target="_blank">ratel-official@googlegroups.com</a>までよろしくお願いします。
+    </p>
+
+</main>
+
+<!-- Start Memberコンテンツ -->
+<main id="contact" role="main" class="pt60">
+    <h2>Contact</h2>
+    <hr>
+
+    <p class="mb4 mx3">楽曲やライブを観ての感想・ブッキング・その他何でもお伝えください！</p>
+    <form method="post"
+          action-xhr="/"
+          target="_top"
+          class="mb4 mx3">
+        <div class="ampstart-input inline-block relative mb4 mx3">
+            <input type="text" value="" name="name" id="ip1" class="block border-none p0 m0 user-valid valid"
+                   placeholder="Enter your name">
+            <label for="ip1" class="absolute top-0 right-0 bottom-0 left-0" aria-hidden="true">Name</label>
+        </div>
+        <div class="ampstart-input inline-block relative m0 p0 mb4 mx3">
+            <input type="text" value="" name="email" id="ip1" class="block border-none p0 m0 user-valid valid"
+                   placeholder="Enter your email">
+            <label for="ip1" class="absolute top-0 right-0 bottom-0 left-0" aria-hidden="true">Email</label>
+        </div>
+        <br>
+        <div class="ampstart-input inline-block relative m0 p0 mb4 mx3">
+            <textarea name="message" id="ip13" class="block border-none p0 m0 user-valid valid" rows="5"></textarea>
+            <label for="ip13" class="absolute top-0 right-0 bottom-0 left-0" aria-hidden="true">Mesasage</label>
+        </div>
+        <br>
+        <div class="flex inline-block relative m0 p0 mb4 mx3">
+            <button class="ampstart-btn ampstart-btn-secondary">
+                SUBMIT
+            </button>
+        </div>
+        <div submitting>
+            送信中です。
+        </div>
+        <div submit-success>
+            ありがとうございます。
+        </div>
+        <div submit-error>
+            エラーです。もう少し経ってからお試しください。
+        </div>
+    </form>
+</main>
+{{template "footer" .}}
+{{end}}
